@@ -25,6 +25,8 @@ urlpatterns = [
     path('profile/',views.ProfilePage,name='profile'),
     path('community/',views.CommunityPage,name='community'),
     path('account/',views.AccountPage,name='account'),
+    path('androidnav/',views.Androidnav,name='androidnav'),
+    path('demo/',views.Demo,name='demo'),
     path('logout_confirm/',views.logout_confirmation,name='logout_confirm'),
     path('logout/',views.LogoutPage,name='logout')
 

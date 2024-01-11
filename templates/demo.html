@@ -1,0 +1,104 @@
+{% extends "home.html" %}
+
+{% block content %}
+<h2> Demo </h2>
+
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #webcam, #output {
+            margin: 10px;
+            border: 2px solid black;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>Real-time Squat Analysis</h1>
+    <video id="webcam" autoplay playsinline width="540" height="380"></video>
+    <canvas id="output" width="540" height="380"></canvas>
+
+    
+</body>
+</html>
+{% endblock %}
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+<script>
+    async function loadPoseNet() {
+        try {
+            const net = await posenet.load();
+            console.log('PoseNet model loaded successfully');
+            return net;
+        } catch (error) {
+            console.error('Error loading PoseNet model:', error);
+            throw error;
+        }
+    }
+
+    async function detectPoses(net, video) {
+        try {
+            const pose = await net.estimateSinglePose(video, {
+                flipHorizontal: false
+            });
+            console.log('Poses detected:', pose);
+            drawPose(video, pose);
+            requestAnimationFrame(() => detectPoses(net, video));
+        } catch (error) {
+            console.error('Error detecting poses:', error);
+        }
+    }
+
+    function drawPose(video, pose) {
+        const canvas = document.getElementById('output');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        pose.keypoints.forEach(keypoint => {
+            const { x, y } = keypoint.position;
+            ctx.beginPath();
+            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = 'red';
+            ctx.fill();
+        });
+
+        const adjacentKeyPoints = posenet.getAdjacentKeyPoints(pose.keypoints, 0.5);
+        adjacentKeyPoints.forEach(keypoints => {
+            const [first, second] = keypoints;
+            ctx.beginPath();
+            ctx.moveTo(first.position.x, first.position.y);
+            ctx.lineTo(second.position.x, second.position.y);
+            ctx.strokeStyle = 'blue';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+    }
+
+    async function startWebcam() {
+        const video = document.getElementById('webcam');
+        try {
+            const stream = await navigator.mediaDevices.getUserMedia({ video: {} });
+            video.srcObject = stream;
+
+            const net = await loadPoseNet();
+            detectPoses(net, video);
+        } catch (error) {
+            console.error('Error accessing webcam:', error);
+        }
+    }
+
+    window.onload = () => startWebcam();
+</script>
+{% endblock %}

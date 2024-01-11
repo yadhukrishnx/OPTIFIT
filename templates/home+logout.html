@@ -1,10 +1,52 @@
 {% extends 'home.html' %}
 
 {% block content %}
+<style>
+     body {
+            background-color: #f9f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .logout-confirmation-container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        p {
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .logout-btn, .cancel-btn {
+            background-color: #d9534f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+
+        .cancel-btn {
+            background-color: #5bc0de;
+        }
+</style>
+
+<div class="logout-confirmation-container">
     <h1>Logout Confirmation</h1>
     <p>Are you sure you want to log out?</p>
-    <button id="confirmLogoutBtn">Yes, Log Out</button>
-    <button onclick="window.history.back();">Cancel</button>
+    <button id="confirmLogoutBtn" class="logout-btn">Yes, Log Out</button>
+    <button onclick="window.history.back();" class="cancel-btn">Cancel</button>
+</div>
 {% endblock %}
 
 {% block scripts %}
