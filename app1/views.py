@@ -59,3 +59,7 @@ def AccountPage(request):
     return render(request,'home+account.html',context)
 def logout_confirmation(request):
     return render(request, 'home+logout.html')
+def Androidnav(request):
+    return render(request, 'androidnav.html')
+def Demo(request):
+    return render(request, 'demo.html')
