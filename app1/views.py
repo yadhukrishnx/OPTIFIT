@@ -5,7 +5,8 @@ from django.contrib.auth.decorators import login_required
 # Create your views here.
 @login_required(login_url='login')
 def HomePage(request):
-    return render (request,'home.html')
+    context = {'active_button': 'home'}
+    return render (request,'home.html',context)
 # def landingpage(request):
 #     return render (request,'landingpage.html')
 
@@ -46,3 +47,15 @@ def LoginPage(request):
 def LogoutPage(request):
     logout(request)
     return redirect('login')
+
+def ProfilePage(request):
+    context = {'active_button': 'profile'}
+    return render(request,'home+profile.html',context)
+def CommunityPage(request):
+    context = {'active_button': 'community'}
+    return render(request,'home+community.html',context)
+def AccountPage(request):
+    context = {'active_button': 'account'}
+    return render(request,'home+account.html',context)
+def logout_confirmation(request):
+    return render(request, 'home+logout.html')

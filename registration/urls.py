@@ -20,9 +20,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/',views.SignupPage,name='signup'),
     # path('',views.landingpage,name='landingpage'),
-    path('',views.LoginPage,name='login'),
+    path('',views.LoginPage,name='login'),  
     path('home/',views.HomePage,name='home'),
-    path('logout/',views.LogoutPage,name='logout'),
+    path('profile/',views.ProfilePage,name='profile'),
+    path('community/',views.CommunityPage,name='community'),
+    path('account/',views.AccountPage,name='account'),
+    path('logout_confirm/',views.logout_confirmation,name='logout_confirm'),
+    path('logout/',views.LogoutPage,name='logout')
 
 
     
