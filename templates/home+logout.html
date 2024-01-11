@@ -1,0 +1,16 @@
+{% extends 'home.html' %}
+
+{% block content %}
+    <h1>Logout Confirmation</h1>
+    <p>Are you sure you want to log out?</p>
+    <button id="confirmLogoutBtn">Yes, Log Out</button>
+    <button onclick="window.history.back();">Cancel</button>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.getElementById('confirmLogoutBtn').addEventListener('click', function () {
+            window.location.href = "{% url 'logout' %}";
+        });
+    </script>
+{% endblock %}
