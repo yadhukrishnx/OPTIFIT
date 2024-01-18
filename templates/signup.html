@@ -378,7 +378,8 @@ body{
                 <div class="social-icons" >
                     <!--Google button html-->
                     </a href=""{% url 'login' %}"">
-                    <button class="gsi-material-button" onclick="tempmsg()">
+                    
+                    <span class="gsi-material-button " style="display: block;" onclick="tempmsg()" >
                         <div class="gsi-material-button-state"></div>
                         <div class="gsi-material-button-content-wrapper">
                           <div class="gsi-material-button-icon">
@@ -393,13 +394,14 @@ body{
                           <span class="gsi-material-button-contents">Continue with Google</span>
                           <span style="display: none;">Continue with Google</span>
                         </div>
-                      </button>
+                    </span>
+                
                       </a>
                     
                 </div>
                 <span>or use your email for registeration</span>
                 <input type="text" placeholder="Username" name="username" id="username" required>
-                <input type="email" placeholder="Email or Phone" name="email" id="email" required>
+                <input type="email" placeholder="Email Address" name="email" id="email" required>
                 <input type="password" placeholder="Password" id="password1" name="password1" required>
                 <input type="password" placeholder="Confirm Password" id="password2" name="password2" required>
                 {% if error_message %}
