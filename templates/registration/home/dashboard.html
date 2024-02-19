@@ -1,0 +1,384 @@
+
+{% csrf_token %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>OPTIFTIAI-DASHBOARD</title>
+
+  
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+        
+    <!-- Custom fonts-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+        {% load static %}
+    <!-- Custom styles -->
+    <link href="{% static 'dashboard/styles.css' %}" rel="stylesheet">
+
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav  sidebar1  sidebar   accordion " id="accordionSidebar" >
+
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" >
+                <div class="sidebar-brand-icon" >
+                    <div  >OPTIFIT   <sup></sup></div>
+                </div>
+               
+            </a>
+
+            <!-- Divider -->
+            <hr class=" my-11" >
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'dashboard' %}" >
+                    <i class="fas fa-fw fa-home"></i>
+                    <span >Home</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="my-1" >
+
+            <!-- Heading -->
+            
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'community' %}">
+                    <i class="fas fa-fw fa-users"></i>
+                    <span>Community</span></a>
+            </li>
+
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'profile' %}">
+                    <i class="fas fa-fw fa-user"></i>
+                    <span>Profile</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class=" " style="margin-top: 27vh;">
+
+            <!-- Heading -->
+            
+
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'account' %}">
+                    <i class="fas fa-fw fa-cogs"></i>
+                    <span>Account Settings</span></a>
+            </li>
+            <li class="nav-item active ">
+                <a class="nav-link" href="{% url 'logout' %}" style="color: red;" >
+                    <i class="fas fa-fw fa-sign-out-alt"></i>
+                    <span >Log Out</span></a>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+            <!-- Sidebar Message -->
+            
+
+        </ul>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content" >
+
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar sticky-top static-top shadow ">
+
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Search -->
+                    <span class="navbar-brand mb-2 mt-2   h1 welcome-text  ">Welcome&nbsp; {{user.username | default:'Name Unavailable' | title}}  🎉</span>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+
+                        <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+                        <li class="nav-item dropdown no-arrow d-sm-none">
+                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-search fa-fw"></i>
+                            </a>
+                            
+                           
+                        </li>
+
+                        
+
+                        
+
+                        <!-- Nav Item - User Information -->
+                        
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="{% url 'profile' %}"  id="userDropdown" role="button"
+                                 aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small ">{{ user.username | default:'Name Unavailable' | title }}</span>
+                                <img class="img-profile rounded-circle" src="{% static 'dashboard/user.jpg' %}" data-toggle="modal" data-target="#profileModal">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModal">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Profile
+                                </a>
+                                <!-- Add other dropdown items here if needed -->
+                            </div>
+                        </li>
+
+                    </ul>
+
+                </nav>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid pagecontent2 " >
+                    <div class="container-fluid pagecontent3 mt-4 p-5">
+                    {% block content %}
+                    <style>
+                        /* Add some CSS to style the form layout */
+                        .workout-item {
+                            margin-bottom: 10px;
+                        }
+                
+                        /* Style for the save routine button */
+                        #save-routine-button {
+                            margin-top: 10px;
+                        }
+                
+                        /* Style for the remove workout button */
+                        .remove-workout-button {
+                            margin-left: 10px;
+                        }
+                
+                        /* Add style for button alignment */
+                        #workout-form button {
+                            margin-top: 10px;
+                        }
+                    </style>
+                    <div class="container text-center mt-5">
+                        <h2 class="text-primary mb-4">Customize Workout</h2> <br>
+                
+                        <form method="post" action="{% url 'customize_routine' %}" id="workout-form" required>
+                            {% csrf_token %}
+                            <div id="workouts-container">
+                                <!-- Existing workout forms -->
+                                {% for workout in workouts %}
+                                    <p> <u>Routines Available</u> </p>
+                                    <div class="workout-item">
+                                        <div style="display: inline-flex;">
+                                            <p>{{ workout }}</p>
+                                            <button type="submit" name="remove_workout" value="{{ workout.id }}" class="btn btn-danger remove-workout-button">Remove</button>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>  
+                            {% if workouts %}
+                                {% with first_workout=workouts.0 %}
+                                    <button type="submit" name="lets_workout" id="lets-workout-button"
+                                            formaction="{% url 'workout_redirect' first_workout.exercise first_workout.rep_count first_workout.time_limit_seconds %}"
+                                            class="btn btn-info mt-3">
+                                        Let's Workout 
+                                    </button>
+                                    <br><br><hr><br>
+                                {% endwith %}
+                            {% else %}
+                                
+                                <!-- Handle the case where there are no workouts in the routine -->
+                                <p class="text-danger mt-3">No workouts in the routine.</p>
+                            {% endif %}
+
+                            {{ form.as_p }}
+                
+                            {% if page == 'dashboard' %}
+
+                            
+                
+                            <input type="submit" name="save_routine" id="save-routine-button" value="Create Workout"  class="btn  mt-3 btn-success " >
+                            
+                            {% else %}
+                            
+                            <input type="submit" name="add_more_workout" id="add-workout-button" class="btn btn-info mt-3" value="Add Workout " >
+                            <!-- Add More Workout button -->
+                            {% endif %}
+                            <!-- Save Routine button -->
+                
+                            <!-- Let's Workout button -->
+                            
+                        </form>
+                    </div>
+                    <script>
+                        // Check if the page has been loaded before
+                        if (!sessionStorage.getItem('pageLoaded')) {
+                            // Set a flag in sessionStorage to indicate that the page has been loaded
+                            sessionStorage.setItem('pageLoaded', 'true');
+                            
+                            // Define a function to be executed when the page is loaded for the first time
+                            window.onload = function() {
+                                // Find the Save Routine button
+                                var saveButton = document.getElementById("save-routine-button");
+                    
+                                // Click the Save Routine button
+                                saveButton.click();
+                    
+                                // Hide the Save Routine button
+                                saveButton.style.display = "none";
+                            };
+                        }
+                    </script>
+                    
+                    {% endblock %}
+
+                    
+
+                    </div>
+                    
+                   
+                    
+                </div>
+                
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-transparent" >
+                <div class="container   my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; <a href="https://optifit-ai.web.app">OPTIFIT AI</a></span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+    
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+       
+
+    <!-- Logout Modal-->
+
+    <!-- Bootstrap core JavaScript-->
+    <!-- jQuery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<!-- Bootstrap Bundle (includes Popper) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Core plugin JavaScript -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+
+{% block scripts %}
+
+
+{% endblock %}
+    <!-- Custom scripts for all pages-->
+    <script>
+    
+    (function($) {
+        "use strict"; // Start of use strict
+      
+        // Toggle the side navigation
+        $("#sidebarToggle, #sidebarToggleTop").on('click', function(e) {
+          $("body").toggleClass("sidebar-toggled");
+          $(".sidebar").toggleClass("toggled");
+          if ($(".sidebar").hasClass("toggled")) {
+            $('.sidebar .collapse').collapse('hide');
+          };
+        });
+      
+        // Close any open menu accordions when window is resized below 768px
+        $(window).resize(function() {
+          if ($(window).width() < 768) {
+            $('.sidebar .collapse').collapse('hide');
+          };
+          
+          // Toggle the side navigation when window is resized below 480px
+          if ($(window).width() < 480 && !$(".sidebar").hasClass("toggled")) {
+            $("body").addClass("sidebar-toggled");
+            $(".sidebar").addClass("toggled");
+            $('.sidebar .collapse').collapse('hide');
+          };
+        });
+      
+        // Prevent the content wrapper from scrolling when the fixed side navigation hovered over
+        $('body.fixed-nav .sidebar').on('mousewheel DOMMouseScroll wheel', function(e) {
+          if ($(window).width() > 768) {
+            var e0 = e.originalEvent,
+              delta = e0.wheelDelta || -e0.detail;
+            this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+            e.preventDefault();
+          }
+        });
+      
+        // Scroll to top button appear
+        $(document).on('scroll', function() {
+          var scrollDistance = $(this).scrollTop();
+          if (scrollDistance > 100) {
+            $('.scroll-to-top').fadeIn();
+          } else {
+            $('.scroll-to-top').fadeOut();
+          }
+        });
+      
+        // Smooth scrolling using jQuery easing
+        $(document).on('click', 'a.scroll-to-top', function(e) {
+          var $anchor = $(this);
+          $('html, body').stop().animate({
+            scrollTop: ($($anchor.attr('href')).offset().top)
+          }, 1000, 'easeInOutExpo');
+          e.preventDefault();
+        });
+      
+      })(jQuery); // End of use strict
+      </script>
+
+   
+
+</body>
+
+</html>

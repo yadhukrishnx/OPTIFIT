@@ -1,0 +1,106 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OPTIFIT AI - Sign Up</title>
+<!-- Bootstrap CSS -->
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body {
+    background-color: #f8f9fa;
+  }
+  .signup-container {
+    width: 80%;
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  }
+  .signup-form {
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="container mt-lg-5">
+  <div class="row justify-content-center mt-lg-5">
+    <div class="col-lg-6">
+      <div class="signup-container">
+        <h2 class="text-center mb-4">OPTIFIT AI </h2>
+        <hr>    <br>
+        <form class="signup-form"  method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="username">Create Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Create Username" required>
+          </div>
+          <div class="form-group">
+            <label for="mail">Email address</label>
+            <input type="email" class="form-control" id="mail" name="mail" placeholder="Enter email" required>
+          </div>
+          <div class="form-group">
+            <label for="password1">Create Password</label>
+            <input type="password" class="form-control" id="password1" name="password1" placeholder="Create Password" required>
+          </div>
+          <div class="form-group">
+            <label for="password2">Confirm Password</label>
+            <input type="password" class="form-control" id="password2" name="password2" placeholder="Confirm Password" required>
+          </div>
+          {% if error_message %}
+                <p style="color: red; font-size:13px">{{ error_message }}</p>
+                <style>
+                    @keyframes flicker {
+                        0%, 100% {
+                            opacity: 1;
+                        }
+                        25%, 50%, 75% {
+                            opacity: 0.5;
+                        }
+                    }
+            
+                    #password1, #password2 {
+                        
+                        box-shadow: 0 0 2px red;
+                        animation: flicker 1s infinite alternate ease-in-out;
+                    }
+                </style>
+
+                {% endif %}
+          {% if error_message2 %}
+                <p style="color: red; font-size:13px">{{ error_message2 }}</p>
+                <style>
+                    @keyframes flicker {
+                        0%, 100% {
+                            opacity: 1;
+                        }
+                        25%, 50%, 75% {
+                            opacity: 0.5;
+                        }
+                    }
+            
+                    #username, #mail{
+                        
+                        box-shadow: 0 0 2px red;
+                        animation: flicker 1s infinite alternate ease-in-out;
+                    }
+                </style>
+
+                {% endif %}
+          <br>
+          <button type="submit" class="btn btn-primary btn-block">Sign Up</button>
+        </form>
+        <div class="text-center mt-3">
+          <p>Already have an account? <a href="{% url 'login' %}">Login</a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+{% extends 'registration/home/dashboard.html' %}
+{% block content %}
+
+
+<style>
+    .newbody {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #video-container {
+      max-width: 720px; /* Set your desired maximum width */
+      width: 100%;
+      text-align: center;
+    }
+
+    #video-feed {
+      width: 100%;
+    }
+
+    #bicep-counter {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      color: white;
+      font-size: 18px;
+    }
+
+    #toggle-btn {
+      margin-top: 10px;
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+<div class="container newbody">
+    <h1 id="bicep-counter">Bicep Curls Rep Counter</h1>
+
+    <div id="video-container">
+      <!-- <img id="video-feed" src="" alt="Video Feed" /> -->
+      <canvas id="video-canvas" style="width: 640px; height: 480px"></canvas>
+    </div>
+
+    <button id="toggle-btn">Start/Stop</button>
+
+    <script>
+      function getFrames() {
+        const cav = document.getElementById("video-canvas");
+        const ctx = cav.getContext("2d");
+        
+        // Get rep_count and time_limit from the URL query parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const rep_count = urlParams.get('rep_count');
+        const time_limit = urlParams.get('time_limit');
+
+        // Construct the URL with rep_count and time_limit query parameters
+        const videoFeedURL = `{% url 'bicep_curls_video_feed' %}?rep_count=${rep_count}&time_limit=${time_limit}`;
+
+        fetch(videoFeedURL)
+        .then(async (res) => {
+          const reader = res.body.getReader();
+          console.log(reader);
+
+          function readNext() {
+            reader.read()
+            .then(({ done, value }) => {
+              if (done) {
+                console.log("Stream complete");
+                window.location.href = "workoutcomplete";
+                return;
+              }
+              
+              const frame = new Uint8Array(value);
+              if (frame.length == 8) {
+                console.log("Time limit reached");
+                window.location.href = "workoutcomplete";
+                return;
+              }
+              
+              const img = new Image();
+              img.src = URL.createObjectURL(new Blob([frame], { type: "image/jpeg" }));
+
+              img.onload = function () {
+                ctx.drawImage(img, 0, 0, 300, 160);
+              };
+
+              console.log(frame);
+              readNext();
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+          }
+          readNext();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+      }
+      getFrames();
+    </script>
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}

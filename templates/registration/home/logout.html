@@ -1,0 +1,60 @@
+{% extends 'registration/home/dashboard.html' %}
+{% block content %}
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .container {
+        margin-top: 100px;
+    }
+    .card {
+        max-width: 400px;
+        margin: auto;
+        border: none;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+    }
+    .card-header {
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 10px 10px 0 0;
+    }
+    .card-body {
+        background-color: #fff;
+        border-radius: 0 0 10px 10px;
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+</style>
+<div class="container">
+    <div class="card">
+        <div class="card-header text-center">
+            <h4>Logout Confirmation</h4>
+        </div>
+        <div class="card-body">
+            <p>Are you sure you want to logout?</p>
+            <div class="text-center">
+                <a  class="btn btn-primary logout-btn" id="confirmLogoutBtn">Logout</a>
+                <a  onclick="window.history.back();" class="btn btn-secondary cancel-btn">Cancel</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        document.getElementById('confirmLogoutBtn').addEventListener('click', function () {
+            window.location.href = "{% url 'logoutconfirmed' %}";
+        });
+    </script>
+{% endblock %}

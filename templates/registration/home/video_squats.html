@@ -1,0 +1,11 @@
+{% extends 'registration/home/dashboard.html' %}
+{% block content %}
+{% load static %}
+<img src="{% url 'generate_frames' rep_count=rep_count time_limit=time_limit %}" alt="Video Feed">
+
+{% endblock %}
+
+
+{% block scripts %}
+
+{% endblock %}
