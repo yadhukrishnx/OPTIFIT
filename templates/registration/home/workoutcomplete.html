@@ -1,0 +1,46 @@
+{% extends 'registration/home/dashboard.html' %}
+{% block content %}
+<style>
+    /* Center alignment for text and buttons */
+    body {
+        text-align: center;
+        font-family: Arial, sans-serif; /* Set a default font */
+        background-color: #f9f9f9; /* Set a light background color */
+        padding: 20px; /* Add padding for better spacing */
+    }
+    h1, h2 {
+        margin-bottom: 20px; /* Add spacing between headings */
+        color: #333333; /* Set heading color */
+    }
+    form {
+        display: inline-block; /* Keep forms inline */
+        margin-top: 20px;
+    }
+    button {
+        margin-right: 20px; /* Add space between buttons */
+        padding: 10px 20px; /* Increase button padding */
+        font-size: 16px; /* Increase button font size */
+        background-color: #007bff; /* Set button background color */
+        color: #ffffff; /* Set button text color */
+        border: none; /* Remove button border */
+        border-radius: 5px; /* Add button border radius */
+        cursor: pointer; /* Add pointer cursor on hover */
+        transition: background-color 0.3s ease; /* Smooth transition for background color */
+    }
+    button:hover {
+        background-color: #0056b3; /* Darken button background color on hover */
+    }
+</style>
+<div class="container">
+    <h1>Congratulations {{user.username | default:'Name Unavailable' | title}} Workout Completed!</h1>
+    <h2>"The only bad workout is the one that didn't happen." - Optifit Ai</h2>
+
+    <!-- Buttons to go back to customize routine and indicate routine completion -->
+    <form method="get" action="{% url 'customize_routine' %}">
+        <button type="submit">Workout More!</button>
+    </form>
+    <form method="get" action="{% url 'routine_complete' %}">
+        <button type="submit">Routine Done!</button>
+    </form>
+</div>
+{% endblock %}

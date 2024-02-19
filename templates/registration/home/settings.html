@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workout Settings</title>
+</head>
+<body>
+    
+    <h2>Workout Settings</h2>
+    <ul>
+        {% for data in workout_data %}
+            <li>{{ data.exercise_name }} - Reps: {{ data.rep_count }}, Time Limit: {{ data.time_limit }} seconds</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

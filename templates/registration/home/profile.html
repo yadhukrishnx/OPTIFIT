@@ -1,0 +1,109 @@
+{% extends 'registration/home/dashboard.html' %}
+{% block content %}
+
+
+<style>
+    body {
+        background-color: #f8f9fa;
+    }
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: auto;
+        display: block;
+        border: 2px solid rgb(0, 134, 243);
+    }
+    .user-name {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff; /* Blue color for important font */
+    }
+    .email {
+        color: #6c757d;
+        text-align: center;
+    }
+    .bmi-info {
+        margin-top: 40px;
+    }
+    .bmi-info p {
+        text-align: center;
+        color: #007bff; /* Blue color for important font */
+        font-size: 18px; /* Increased font size for workout suggestion */
+    }
+    .form-group label {
+        color: #007bff; /* Blue color for important font */
+    }
+    .btn-primary {
+        background-color: #007bff;
+        border: none;
+    }
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+    #bmi-inputs {
+        display: none; /* Initially hide the input fields */
+    }
+</style>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            {% load static %}
+            <img src="{% static 'dashboard/user.jpg' %}" alt="Profile Image" class="profile-image">
+            <div class="user-name">{{user.username}}</div>
+            <div class="email">{{user.email}}</div>
+            <div class="mt-4">
+                <div class="bmi-info">
+                    <h5 class="text-center">Body Mass Index (BMI)</h5>
+                    <p id="bmi-info">Your BMI : {{ bmi }}</p>
+                    <p id="bmi-suggestion">{{ suggestion }}</p>
+                </div>
+                <button id="update-bmi-inputs" class="btn btn-primary btn-block">Update BMI Inputs</button>
+                <form id="bmi-inputs" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="height">Height (in cm):</label>
+                        <input type="number" class="form-control" id="height"  name="height" placeholder="Enter height">
+                    </div>
+                    <div class="form-group">
+                        <label for="weight">Weight (in kg):</label>
+                        <input type="number" class="form-control" id="weight" name="weight" placeholder="Enter weight">
+                    </div>
+                    <div class="form-group">
+                        <label for="gender">Gender:</label>
+                        <select class="form-control" id="gender" name="gender">
+                            <option value="male">Male</option> 
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary">Calculate BMI</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+    $(document).ready(function(){
+        $('#update-bmi-inputs').click(function(){
+            $('#bmi-inputs').toggle(); // Toggle the visibility of input fields
+        });
+
+        
+
+        
+
+        
+    });
+</script>
+
+
+{% endblock %}
