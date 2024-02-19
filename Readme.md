@@ -1,6 +1,8 @@
 # OPTIFIT AI
 
-Welcome to OPTIFIT AI  This README provides information on setting up and running the application on your local machine.
+Welcome to OPTIFIT AI  
+Know More about us  https://optifit-ai.web.app
+This README provides information on setting up and running the application on your local machine.
 
 ## Prerequisites
 
@@ -12,14 +14,14 @@ Welcome to OPTIFIT AI  This README provides information on setting up and runnin
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/optifitai/DEMO_APP.git
-cd DEMO_APP
-cd registration
+git clone https://github.com/optifitai/OPTIFITAI.git
+cd OPTIFITAI
+
 ```
 
 ### 2. Set Up Virtual Environment
 ```bash
-Copy code
+
 python -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
@@ -31,8 +33,9 @@ pip install -r requirements.txt
 
  ```
 
- ### 4. Run Migrations 
+ ### 4.Make and Run Migrations 
  ```bash
+ python manage.py makemigrations
  python manage.py migrate
 
  ```
@@ -42,7 +45,7 @@ pip install -r requirements.txt
 
  ```
 
-
+### Facing issues ? Contact optifiai@gmail.com
 
  ```
 
