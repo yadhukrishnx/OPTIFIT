@@ -1,4 +1,67 @@
 {% extends 'registration/home/dashboard.html' %}
 {% block content %}
-<h1>Community</h1>
-{% endblock %}
+
+    <h1>Tutorials</h1>
+        {% load static %}
+    
+        <div class="row">
+            <!-- First card -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <video src="{% static 'videos/bicepcurls.mp4' %}"  loop class="hover-to-play w-100 card-img-top"   type="video/mp4"   controls autoplay></video>
+                    <div class="card-body">
+                        <h5 class="card-title">Bicep Curls</h5>
+                        <p class="card-text">Bicep curls are a great exercise for targeting the biceps muscles. They help in building arm strength and muscle definition.</p>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="https://www.verywellfit.com/how-to-do-the-biceps-arm-curl-3498604" class="btn btn-primary btn-block" target="_blank">Learn More</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="https://youtu.be/uO_CNYidOw0?si=cW1i28W2hDz7q5fk" target="_blank" class="btn btn-primary btn-block">Complete Tutorial</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Second card -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <video src="{% static 'videos/squats.mp4' %}"  loop class="hover-to-play w-100 card-img-top"   type="video/mp4"   controls autoplay></video>
+                    <div class="card-body">
+                        <h5 class="card-title">Squats</h5>
+                        <p class="card-text">Squats are a fundamental lower body exercise that target multiple muscle groups including the quadriceps, hamstrings, and glutes</p> <br> 
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="https://www.nerdfitness.com/blog/strength-training-101-how-to-squat-properly/" class="btn btn-primary btn-block" target="_blank">Learn More</a>
+                            </div>
+                            <div class="col-6">
+                                <a href="https://youtu.be/otzWCWpuW-A?si=UIwq_MMQ5YiI3bmx" target="_blank" class="btn btn-primary btn-block">Complete Tutorial</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                const clip = document.querySelectorAll(".hover-to-play");
+for (let i = 0; i < clip.length; i++) { clip[i].addEventListener("mouseenter", function (e) { clip[i].play();
+  }); clip[i].addEventListener("mouseout", function (e) { clip[i].pause(); }); }
+            </script>
+            <!-- Third card -->
+            <div class="col-lg-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Coming Soon</h5>
+                        <p class="card-text">Stay tuned for more tutorials!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+<style>
+    .card{
+       
+    }
+</style>
+
+    
+{% endblock %}  

@@ -31,6 +31,65 @@
 </head>
 
 <body id="page-top">
+    <style>
+        body {
+        background-color: #f8f9fa;
+    }
+    .profile-image {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        margin: auto;
+        display: block;
+        border: 2px solid rgb(0, 134, 243);
+    }
+    .user-name {
+        font-size: 24px;
+        font-weight: bold;
+        text-align: center;
+        margin-top: 20px;
+        color: #007bff; /* Blue color for important font */
+    }
+    .email {
+        color: #1e2021;
+        text-align: center;
+    }
+    .bmi-info {
+        margin-top: 40px;
+    }
+    .bmi-info p {
+        text-align: center;
+        color: #007bff; /* Blue color for important font */
+        font-size: 18px; /* Increased font size for workout suggestion */
+    }
+    .form-group label {
+        color: #007bff; /* Blue color for important font */
+    }
+    
+
+    </style>
+    <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true"> 
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="profileModalLabel">User Profile</h5>
+                    <button type="button"  class="btn-close" style="width: 20px; height: 20px; background-color: #f45e59; " data-bs-dismiss="modal" aria-label="Close" ></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img src="{{ avatar_url }}" alt="Profile Image" class="profile-image" >
+                    <div class="user-name">{{ user.username }}</div>
+                    <div class="email">{{ user.email }}</div>
+                    <p>Sex: {{ sex }}</p>
+                    <div class="bmi-info">
+                        <h5 class="text-center">Body Mass Index (BMI)</h5>
+                        <p>Your BMI : {{ bmi }}</p>
+                        <p>{{ suggestion }}</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -64,8 +123,8 @@
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item active">
                 <a class="nav-link" href="{% url 'community' %}">
-                    <i class="fas fa-fw fa-users"></i>
-                    <span>Community</span></a>
+                    <i class="fas fa-fw fa-video"></i>
+                    <span>Tutorials</span></a>
             </li>
 
             <!-- Nav Item - Utilities Collapse Menu -->
@@ -145,10 +204,11 @@
                         <!-- Nav Item - User Information -->
                         
                         <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="{% url 'profile' %}"  id="userDropdown" role="button"
+                            <a class="nav-link dropdown-toggle"  id="userDropdown" role="button"
                                  aria-haspopup="true" aria-expanded="false">
                                 <span class="mr-2 d-none d-lg-inline text-gray-600 small ">{{ user.username | default:'Name Unavailable' | title }}</span>
-                                <img class="img-profile rounded-circle" src="{% static 'dashboard/user.jpg' %}" data-toggle="modal" data-target="#profileModal">
+                                <img class="img-profile rounded-circle" src="{{ avatar_url }}" data-bs-toggle="modal"
+                                data-bs-target="#profileModal">
                             </a>
                             <!-- Dropdown - User Information -->
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -198,8 +258,9 @@
                             {% csrf_token %}
                             <div id="workouts-container">
                                 <!-- Existing workout forms -->
+                                <p> <u>Created Routine</u> </p>
                                 {% for workout in workouts %}
-                                    <p> <u>Routines Available</u> </p>
+                                    
                                     <div class="workout-item">
                                         <div style="display: inline-flex;">
                                             <p>{{ workout }}</p>
@@ -317,6 +378,13 @@
 
 {% endblock %}
     <!-- Custom scripts for all pages-->
+    <script>
+        $(document).ready(function(){
+            $('#toggleProfileBtn').click(function(){
+                $('#profileModal').modal('show'); // Show the profile modal
+            });
+        });
+    </script>
     <script>
     
     (function($) {

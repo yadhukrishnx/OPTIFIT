@@ -44,6 +44,26 @@
             <input type="password" class="form-control" id="password1"  name="password1" placeholder="Password" required>
           </div>
           <br>
+          {% if error_message %}
+                <p style="color: red; font-size:13px">{{ error_message }}</p>
+                <style>
+                    @keyframes flicker {
+                        0%, 100% {
+                            opacity: 1;
+                        }
+                        25%, 50%, 75% {
+                            opacity: 0.7;
+                        }
+                    }
+            
+                    #password1, #username {
+                        
+                        box-shadow: 0 0 2px red;
+                        animation: flicker 1s infinite alternate ease-in-out;
+                    }
+                </style>
+
+            {% endif %}
           <button type="submit" class="btn btn-primary btn-block">Login</button>
         </form>
         <div class="text-center mt-3">

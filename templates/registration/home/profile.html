@@ -52,16 +52,17 @@
     <div class="row">
         <div class="col-md-6 offset-md-3">
             {% load static %}
-            <img src="{% static 'dashboard/user.jpg' %}" alt="Profile Image" class="profile-image">
+            
+            <img src="{{ avatar_url }}" alt="Upload profile" class="profile-image">
             <div class="user-name">{{user.username}}</div>
             <div class="email">{{user.email}}</div>
             <div class="mt-4">
                 <div class="bmi-info">
-                    <h5 class="text-center">Body Mass Index (BMI)</h5>
+                    <h5 class="text-center">Body Mass Index (BMI)</h5>  
                     <p id="bmi-info">Your BMI : {{ bmi }}</p>
                     <p id="bmi-suggestion">{{ suggestion }}</p>
                 </div>
-                <button id="update-bmi-inputs" class="btn btn-primary btn-block">Update BMI Inputs</button>
+                <button id="update-bmi-inputs" class="btn btn-primary btn-block">Update Profile</button>
                 <form id="bmi-inputs" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="form-group">
@@ -79,8 +80,12 @@
                             <option value="female">Female</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="avatar">Update Profile Picture :</label>
+                        <input type="file" name="avatar" id="avatar">
+                    </div>
                     <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Calculate BMI</button>
+                        <button type="submit" class="btn btn-primary">Update</button>
                     </div>
                 </form>
             </div>
