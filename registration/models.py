@@ -6,3 +6,4 @@ class ProfileData(models.Model):
     height = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     weight = models.DecimalField(max_digits=5, decimal_places=2, null=True, blank=True)
     gender = models.CharField(max_length=10, null=True, blank=True)  
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)

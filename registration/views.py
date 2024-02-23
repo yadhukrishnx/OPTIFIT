@@ -12,7 +12,8 @@ from django.shortcuts import render, redirect
 from customization.models import Routine, Workout
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password,check_password
-
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 # Create your views here.
 
 
@@ -59,8 +60,23 @@ def home(request):
         routine = routines.first()
         
     workouts = routine.workout_set.all()
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            gender = profile_data.gender
+            avatar_url = profile_data.avatar.url
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
     
-    return render (request,'registration/home/dashboard.html',{'workouts':workouts,'page':page})
+    return render (request,'registration/home/dashboard.html',{'workouts':workouts,'page':page,'bmi': bmi, 'suggestion': suggestion,'sex' : gender,'avatar_url':avatar_url})
 
     
 
@@ -89,6 +105,7 @@ def signup(request):
 
 
 def loginpage(request):
+    error_message = None
     if request.method=='POST':
         username=request.POST.get('username')
         pass1=request.POST.get('password1')
@@ -97,39 +114,61 @@ def loginpage(request):
             login(request,user)
             return redirect('dashboard')
         else:
-            return HttpResponse ("Username or Password is incorrect!!!")
+            error_message = "Username or Password is incorrect!!!"
     
-    return render(request,'registration/login/index.html')
+    return render(request, 'registration/login/index.html', {'error_message': error_message})
 
 def profile(request):
     if request.method == 'POST':
         height = float(request.POST.get('height')) / 100  # Convert height to meters
         weight = float(request.POST.get('weight'))
         gender = request.POST.get('gender')
+        
         bmi = weight / (height ** 2)
+        bmi = round(bmi, 2)
         profile, created = ProfileData.objects.get_or_create(user=request.user)
         profile.height = height * 100  # Save height in cm
         profile.weight = weight
         profile.gender = gender
+        
+        
         profile.save()
 
         suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+         # Handle profile picture upload
+         
+        if 'avatar' in request.FILES:
+            avatar = request.FILES['avatar']
+            fs = FileSystemStorage()
+            filename = fs.save(avatar.name, avatar)
+            avatar_url = fs.url(filename)
 
-        return render(request, 'registration/home/profile.html', {'bmi': bmi, 'suggestion': suggestion})
+            # Save the avatar URL to the user's profile or wherever you need
+            profile.avatar = avatar_url
+            profile.save()
+
+        
+        return render(request, 'registration/home/profile.html', {'bmi': bmi, 'suggestion': suggestion,'avatar_url': profile.avatar.url})
     else:
         try:
             profile_data = ProfileData.objects.get(user=request.user)
             height = profile_data.height / 100  # Convert height to meters
             weight = profile_data.weight
             gender = profile_data.gender
+            avatar_url = profile_data.avatar.url
             bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
             suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+            
         except ProfileData.DoesNotExist:
             # Handle case when profile data doesn't exist
             bmi = None
             suggestion = None
-
-        return render(request, 'registration/home/profile.html', {'bmi': bmi, 'suggestion': suggestion})
+            gender = None
+            avatar_url = None
+            
+        
+        return render(request, 'registration/home/profile.html', {'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url': avatar_url})
 
 def get_bmi_suggestion(bmi, gender):
     if bmi is None:
@@ -151,10 +190,39 @@ def get_bmi_suggestion(bmi, gender):
 
 
 def community(request):
-    
-    return render(request,'registration/home/community.html')
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            gender = profile_data.gender
+            avatar_url = profile_data.avatar.url
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request,'registration/home/community.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def account(request):
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
     if request.method == 'POST':
         current_password = request.POST.get('current_password')
         new_password1 = request.POST.get('new_password1')
@@ -176,7 +244,7 @@ def account(request):
         else:
             messages.error(request, 'Current password is incorrect!')
     
-    return render(request, 'registration/home/account.html')
+    return render(request, 'registration/home/account.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def logout(request):
     return render(request,'registration/home/logout.html')
