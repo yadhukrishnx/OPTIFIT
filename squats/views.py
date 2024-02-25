@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from registration.models import ProfileData
+from registration.views import get_bmi_suggestion
 
 # Create your views here.
 # squats/views.py
@@ -230,6 +232,22 @@ def generate_frames(rep_count, time_limit):
 from django.shortcuts import render
 
 def index(request):
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+            
     # Get rep_count and time_limit from the request query parameters
     rep_count = request.GET.get('rep_count', 3)
     time_limit = request.GET.get('time_limit', 120)
@@ -239,11 +257,12 @@ def index(request):
     time_limit = int(time_limit)
 
     # Render the index.html template with the context
-    return render(request, 'registration/home/squats.html', {'rep_count': rep_count, 'time_limit': time_limit})
+    return render(request, 'registration/home/squats.html', {'rep_count': rep_count, 'time_limit': time_limit,'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 from django.http import StreamingHttpResponse
 
 def video_feed(request):
+    
     rep_count = request.GET.get('rep_count', 3)
     time_limit = request.GET.get('time_limit', 120)
 
@@ -254,7 +273,37 @@ def video_feed(request):
     return StreamingHttpResponse(generate_frames(rep_count, time_limit))
 
 def workoutcomplete(request):
-     return render(request, 'registration/home/workoutcomplete.html')
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request, 'registration/home/workoutcomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def routinecomplete(request):
-     return render(request, 'registration/home/routinecomplete.html')
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request, 'registration/home/routinecomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})

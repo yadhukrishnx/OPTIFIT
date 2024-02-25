@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
 
 INSTALLED_APPS = [
     "django.contrib.admin",

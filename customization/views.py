@@ -5,10 +5,27 @@ from .forms import WorkoutForm
 from .models import Routine, Workout
 from django.http import HttpResponse
 from .models import WorkoutSettings
+from registration.models import ProfileData
+from registration.views import get_bmi_suggestion
 
 def workout_settings(request):
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
     workout_data = WorkoutSettings.objects.all()
-    return render(request, 'registration\home\settings.html', {'workout_data': workout_data})
+    return render(request, 'registration\home\settings.html', {'workout_data': workout_data,'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 @login_required
 
@@ -65,8 +82,22 @@ def customize_routine_view(request):
         form = WorkoutForm()
 
     workouts = routine.workout_set.all()
-
-    return render(request, 'registration/home/dashboard.html', {'form': form, 'workouts': workouts,'page':page})
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request, 'registration/home/dashboard.html', {'form': form, 'workouts': workouts,'page':page,'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 
 @login_required
@@ -85,7 +116,37 @@ def workout_redirect_view(request, exercise_name, rep_count, time_limit):
 # Add this view to your urlpatterns in customization/urls.py
 
 def workout_completion(request):
-    return render(request, 'registration\home\workoutcomplete.html')
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request, 'registration\home\workoutcomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def routine_completion(request):
-    return render(request, 'registration\home\routinecomplete.html')
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request, 'registration\home\routinecomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})

@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password,check_password
 from django.core.files.storage import FileSystemStorage
 from django.conf import settings
+import os
 # Create your views here.
 
 
@@ -139,7 +140,8 @@ def profile(request):
          
         if 'avatar' in request.FILES:
             avatar = request.FILES['avatar']
-            fs = FileSystemStorage()
+            myfolder='media'
+            fs = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT,myfolder))
             filename = fs.save(avatar.name, avatar)
             avatar_url = fs.url(filename)
 
@@ -174,19 +176,30 @@ def get_bmi_suggestion(bmi, gender):
     if bmi is None:
         return "No BMI data available."
     elif bmi < 18.5:
-        return 'You are underweight. Consider gaining some weight.'
-    elif bmi >= 18.5 and bmi < 24.9:
-        return 'You have a healthy weight. Keep it up!'
-    elif bmi >= 25 and bmi < 29.9:
+        return 'You are underweight. Consider gaining some weight. Include nutrient-dense foods like nuts, seeds, and healthy fats in your diet. Start a strength training routine to build muscle mass.'
+    elif 18.5 <= bmi < 24.9:
+        return 'You have a healthy weight. Keep it up! Continue with a balanced diet and regular exercise routine.'
+    elif 25 <= bmi < 29.9:
         if gender == 'male':
-            return 'You are overweight. Consider losing some weight and focus on cardio exercises.'
+            return 'You are overweight. Consider losing some weight and focus on cardio exercises. Incorporate activities like running, cycling, or swimming into your routine.'
         else:
-            return 'You are overweight. Consider losing some weight and focus on strength training exercises.'
+            return 'You are overweight. Consider losing some weight and focus on strength training exercises. Start with bodyweight exercises like squats, lunges, and push-ups.'
+    elif 30 <= bmi < 34.9:
+        if gender == 'male':
+            return 'You are moderately obese. Focus on losing weight and consult a healthcare professional. Consider high-intensity interval training (HIIT) for better results. Incorporate more vegetables, lean proteins, and whole grains into your diet.'
+        else:
+            return 'You are moderately obese. Focus on losing weight and consult a healthcare professional. Consider combining cardio and strength training exercises. Incorporate more vegetables, lean proteins, and whole grains into your diet.'
+    elif 35 <= bmi < 39.9:
+        if gender == 'male':
+            return 'You are severely obese. It is crucial to focus on losing weight under medical supervision. Consider a structured exercise program supervised by a fitness professional. Focus on portion control and avoiding processed foods.'
+        else:
+            return 'You are severely obese. It is crucial to focus on losing weight under medical supervision. Consider a structured exercise program supervised by a fitness professional. Focus on portion control and avoiding processed foods.'
     else:
         if gender == 'male':
-            return 'You are obese. Focus on losing weight and consult a healthcare professional. Consider high-intensity interval training (HIIT) for better results.'
+            return 'You are morbidly obese. Immediate action is necessary for your health. Consult a healthcare professional for a personalized weight loss plan. Consider bariatric surgery as a last resort. Focus on portion control, regular exercise, and seeking support from a healthcare team.'
         else:
-            return 'You are obese. Focus on losing weight and consult a healthcare professional. Consider combining cardio and strength training exercises.'
+            return 'You are morbidly obese. Immediate action is necessary for your health. Consult a healthcare professional for a personalized weight loss plan. Consider bariatric surgery as a last resort. Focus on portion control, regular exercise, and seeking support from a healthcare team.'
+
 
 
 def community(request):
@@ -247,7 +260,22 @@ def account(request):
     return render(request, 'registration/home/account.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def logout(request):
-    return render(request,'registration/home/logout.html')
+    try:
+            profile_data = ProfileData.objects.get(user=request.user)
+            height = profile_data.height / 100  # Convert height to meters
+            weight = profile_data.weight
+            avatar_url = profile_data.avatar.url
+            gender = profile_data.gender
+            bmi = weight / (height ** 2)
+            bmi = round(bmi, 2)
+            suggestion = get_bmi_suggestion(bmi, gender)  # Get BMI suggestion
+    except ProfileData.DoesNotExist:
+            # Handle case when profile data doesn't exist
+            bmi = None
+            suggestion = None
+            gender = None
+            avatar_url = None
+    return render(request,'registration/home/logout.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def logoutconfimed(request):
     logout(request)
