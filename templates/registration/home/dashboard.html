@@ -188,11 +188,7 @@
                     <ul class="navbar-nav ml-auto">
 
                         <!-- Nav Item - Search Dropdown (Visible Only XS) -->
-                        <li class="nav-item dropdown no-arrow d-sm-none">
-                            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-search fa-fw"></i>
-                            </a>
+                        
                             
                            
                         </li>
@@ -206,7 +202,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle"  id="userDropdown" role="button"
                                  aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small ">{{ user.username | default:'Name Unavailable' | title }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small " style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;">{{ user.username | default:'Name Unavailable' | title }}</span>
                                 <img class="img-profile rounded-circle" src="{{ avatar_url }}" data-bs-toggle="modal"
                                 data-bs-target="#profileModal">
                             </a>
@@ -261,10 +257,11 @@
                                 <p> <u>Created Routine</u> </p>
                                 {% for workout in workouts %}
                                     
+                                    
                                     <div class="workout-item">
-                                        <div style="display: inline-flex;">
-                                            <p>{{ workout }}</p>
-                                            <button type="submit" name="remove_workout" value="{{ workout.id }}" class="btn btn-danger remove-workout-button">Remove</button>
+                                        <div style="display: flex; flex-direction: row; align-items: center; justify-content: center;">
+                                            <p style="margin-top: 2%;">{{ workout }}</p>
+                                            <button type="submit" name="remove_workout" value="{{ workout.id }}" class="btn" style="background-color: transparent; border: none; color: red;" >&nbsp;Remove</button>
                                         </div>
                                     </div>
                                 {% endfor %}

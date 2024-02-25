@@ -1,14 +1,13 @@
 {% extends 'registration/home/dashboard.html' %}
 {% block content %}
 
-
 <style>
     .newbody {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      height: 80vh;
       margin: 0;
     }
 
@@ -23,11 +22,10 @@
     }
 
     #bicep-counter {
-      position: absolute;
       top: 10px;
       left: 10px;
-      color: white;
-      font-size: 18px;
+      color: rgb(15, 123, 248);
+      font-size: 28px;
     }
 
     #toggle-btn {
@@ -36,22 +34,30 @@
       font-size: 16px;
       cursor: pointer;
     }
-  </style>
+</style>
+
 <div class="container newbody">
     <h1 id="bicep-counter">Bicep Curls Rep Counter</h1>
 
     <div id="video-container">
       <!-- <img id="video-feed" src="" alt="Video Feed" /> -->
-      <canvas id="video-canvas" style="width: 640px; height: 480px"></canvas>
+      <canvas id="video-canvas" style="width: 100%; height: auto;"></canvas>
     </div>
 
-    <button id="toggle-btn">Start/Stop</button>
+    <button id="toggle-btn" class="btn btn-success" style="border-radius: 20px;">Start/Stop</button>
 
     <script>
       function getFrames() {
-        const cav = document.getElementById("video-canvas");
-        const ctx = cav.getContext("2d");
-        
+        const canvas = document.getElementById("video-canvas");
+        const ctx = canvas.getContext("2d");
+
+        // Set the canvas dimensions for high resolution
+        const scaleFactor = window.devicePixelRatio;
+        canvas.width = 1280 * scaleFactor; // Adjust width as needed
+        canvas.height = 720 * scaleFactor; // Adjust height as needed
+        canvas.style.width = "640px"; // Actual displayed width (optional)
+        canvas.style.height = "360px"; // Actual displayed height (optional)
+
         // Get rep_count and time_limit from the URL query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const rep_count = urlParams.get('rep_count');
@@ -73,19 +79,19 @@
                 window.location.href = "workoutcomplete";
                 return;
               }
-              
+
               const frame = new Uint8Array(value);
               if (frame.length == 8) {
                 console.log("Time limit reached");
                 window.location.href = "workoutcomplete";
                 return;
               }
-              
+
               const img = new Image();
               img.src = URL.createObjectURL(new Blob([frame], { type: "image/jpeg" }));
 
               img.onload = function () {
-                ctx.drawImage(img, 0, 0, 300, 160);
+                ctx.drawImage(img, 0, 0, 1280 * scaleFactor, 720 * scaleFactor); // Draw the image at high resolution
               };
 
               console.log(frame);
@@ -105,9 +111,7 @@
     </script>
 </div>
 
-
 {% endblock %}
-
 
 {% block scripts %}
 

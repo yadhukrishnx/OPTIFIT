@@ -1,14 +1,13 @@
 {% extends 'registration/home/dashboard.html' %}
 {% block content %}
 
-
 <style>
     .newbody {
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      height: 80vh;
       margin: 0;
     }
 
@@ -20,14 +19,14 @@
 
     #video-feed {
       width: 100%;
-    }
+    } 
 
     #bicep-counter {
-      position: absolute;
+      
       top: 10px;
       left: 10px;
-      color: white;
-      font-size: 18px;
+      color: rgb(6, 71, 234);
+      font-size: 28px;
     }
 
     #toggle-btn {
@@ -36,21 +35,28 @@
       font-size: 16px;
       cursor: pointer;
     }
-  </style>
+</style>
+
 <div class="container newbody">
     <h1 id="squat-counter">Squat Rep Counter</h1>
 
     <div id="video-container">
       <!-- <img id="video-feed" src="" alt="Video Feed" /> -->
-      <canvas id="video-canvas" style="width: 640px; height: 480px"></canvas>
+      <canvas id="video-canvas" style="width: 100%; height: auto;"></canvas>
     </div>
 
-    <button id="toggle-btn">Start/Stop</button>
+    <button id="toggle-btn" class="btn btn-success" style="border-radius: 20px;">Start/Stop</button>
 
     <script>
       function getFrames() {
-        cav = document.getElementById("video-canvas");
-        ctx = cav.getContext("2d");
+        const canvas = document.getElementById("video-canvas");
+        const ctx = canvas.getContext("2d");
+        const scaleFactor = window.devicePixelRatio;
+
+        // Set the canvas dimensions for high resolution
+        canvas.width = 1280 * scaleFactor; // Adjust width as needed
+        canvas.height = 720 * scaleFactor; // Adjust height as needed
+
         // Get rep_count and time_limit from the URL query parameters
         const urlParams = new URLSearchParams(window.location.search);
         const rep_count = urlParams.get('rep_count');
@@ -60,7 +66,7 @@
         const videoFeedURL = `{% url 'video_feed' %}?rep_count=${rep_count}&time_limit=${time_limit}`;
 
         fetch(videoFeedURL).then(async (res) => {
-          reader = res.body.getReader();
+          const reader = res.body.getReader();
           console.log(reader);
           function readNext() {
             reader
@@ -82,12 +88,12 @@
                   window.location.href = "workoutcomplete";
                   return;
                 }
-                img = new Image();
+                const img = new Image();
                 img.src = URL.createObjectURL(
                   new Blob([frame], { type: "image/jpeg" })
                 );
                 img.onload = function () {
-                  ctx.drawImage(img, 0, 0, 300, 160);
+                  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 };
                 console.log(frame);
                 readNext();
@@ -103,9 +109,7 @@
     </script>
 </div>
 
-
 {% endblock %}
-
 
 {% block scripts %}
 
