@@ -23,7 +23,7 @@ def workout_settings(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     workout_data = WorkoutSettings.objects.all()
     return render(request, 'registration\home\settings.html', {'workout_data': workout_data,'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
@@ -96,7 +96,7 @@ def customize_routine_view(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration/home/dashboard.html', {'form': form, 'workouts': workouts,'page':page,'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 
@@ -130,7 +130,7 @@ def workout_completion(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration\home\workoutcomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def routine_completion(request):
@@ -148,5 +148,5 @@ def routine_completion(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration\home\routinecomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})

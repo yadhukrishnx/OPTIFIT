@@ -75,7 +75,7 @@ def home(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     
     return render (request,'registration/home/dashboard.html',{'workouts':workouts,'page':page,'bmi': bmi, 'suggestion': suggestion,'sex' : gender,'avatar_url':avatar_url})
 
@@ -167,7 +167,7 @@ def profile(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
             
         
         return render(request, 'registration/home/profile.html', {'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url': avatar_url})
@@ -175,31 +175,39 @@ def profile(request):
 def get_bmi_suggestion(bmi, gender):
     if bmi is None:
         return "No BMI data available."
-    elif bmi < 18.5:
-        return 'You are underweight. Consider gaining some weight. Include nutrient-dense foods like nuts, seeds, and healthy fats in your diet. Start a strength training routine to build muscle mass.'
+    
+    if bmi < 18.5:
+        return '⚠️ Underweight: Consider gaining weight. Include nuts, seeds, and healthy fats in your diet  Start strength training to build muscle.'
     elif 18.5 <= bmi < 24.9:
-        return 'You have a healthy weight. Keep it up! Continue with a balanced diet and regular exercise routine.'
+        return '👍 Healthy Weight: Keep it up! Maintain a balanced diet and regular exercise routine.'
     elif 25 <= bmi < 29.9:
+        suggestion = '🟠 Overweight: '
         if gender == 'male':
-            return 'You are overweight. Consider losing some weight and focus on cardio exercises. Incorporate activities like running, cycling, or swimming into your routine.'
+            suggestion += 'Focus on cardio like running or cycling.'
         else:
-            return 'You are overweight. Consider losing some weight and focus on strength training exercises. Start with bodyweight exercises like squats, lunges, and push-ups.'
+            suggestion += 'Start strength training with squats and lunges.'
+        return suggestion
     elif 30 <= bmi < 34.9:
+        suggestion = '🔴 Moderately Obese: '
         if gender == 'male':
-            return 'You are moderately obese. Focus on losing weight and consult a healthcare professional. Consider high-intensity interval training (HIIT) for better results. Incorporate more vegetables, lean proteins, and whole grains into your diet.'
+            suggestion += 'Try HIIT and include more veggies and lean proteins.'
         else:
-            return 'You are moderately obese. Focus on losing weight and consult a healthcare professional. Consider combining cardio and strength training exercises. Incorporate more vegetables, lean proteins, and whole grains into your diet.'
+            suggestion += 'Combine cardio and strength training.'
+        return suggestion
     elif 35 <= bmi < 39.9:
+        suggestion = '🔴 Severely Obese: '
         if gender == 'male':
-            return 'You are severely obese. It is crucial to focus on losing weight under medical supervision. Consider a structured exercise program supervised by a fitness professional. Focus on portion control and avoiding processed foods.'
+            suggestion += 'Supervised exercise program and portion control.'
         else:
-            return 'You are severely obese. It is crucial to focus on losing weight under medical supervision. Consider a structured exercise program supervised by a fitness professional. Focus on portion control and avoiding processed foods.'
+            suggestion += 'Supervised exercise program and portion control.'
+        return suggestion
     else:
+        suggestion = '🔴 Morbidly Obese: '
         if gender == 'male':
-            return 'You are morbidly obese. Immediate action is necessary for your health. Consult a healthcare professional for a personalized weight loss plan. Consider bariatric surgery as a last resort. Focus on portion control, regular exercise, and seeking support from a healthcare team.'
+            suggestion += 'Consult a professional for personalized plan. Consider bariatric surgery as last resort.'
         else:
-            return 'You are morbidly obese. Immediate action is necessary for your health. Consult a healthcare professional for a personalized weight loss plan. Consider bariatric surgery as a last resort. Focus on portion control, regular exercise, and seeking support from a healthcare team.'
-
+            suggestion += 'Consult a professional for personalized plan. Consider bariatric surgery as last resort.'
+        return suggestion
 
 
 def community(request):
@@ -217,7 +225,7 @@ def community(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request,'registration/home/community.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def account(request):
@@ -235,7 +243,7 @@ def account(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     if request.method == 'POST':
         current_password = request.POST.get('current_password')
         new_password1 = request.POST.get('new_password1')

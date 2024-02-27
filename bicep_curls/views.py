@@ -266,7 +266,7 @@ def index(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration/home/biceps.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def video_feed(request):
@@ -294,7 +294,7 @@ def workoutcomplete(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration/home/workoutcomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def routinecomplete(request):
@@ -312,5 +312,5 @@ def routinecomplete(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration/home/routinecomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})

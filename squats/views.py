@@ -246,7 +246,7 @@ def index(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = '/media/media/default.jpg'
             
     # Get rep_count and time_limit from the request query parameters
     rep_count = request.GET.get('rep_count', 3)
@@ -287,7 +287,7 @@ def workoutcomplete(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration/home/workoutcomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
 
 def routinecomplete(request):
@@ -305,5 +305,5 @@ def routinecomplete(request):
             bmi = None
             suggestion = None
             gender = None
-            avatar_url = None
+            avatar_url = "/media/media/default.jpg"
     return render(request, 'registration/home/routinecomplete.html',{'bmi': bmi, 'suggestion': suggestion,'sex':gender,'avatar_url':avatar_url})
