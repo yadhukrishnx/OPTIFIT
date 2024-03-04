@@ -1,6 +1,7 @@
 # OPTIFIT AI
 
 Welcome to OPTIFIT AI  
+" leveraging advancements in machine learning and computer vision, OptiFit aims to bridge the gap between traditional workout apps and comprehensive fitness experiences, fostering a culture of active living and long-term wellness in today's dynamic landscape. "
 Know More about us  https://optifit-ai.web.app
 This README provides information on setting up and running the application on your local machine.
 
@@ -23,9 +24,24 @@ cd OPTIFITAI
 ```bash
 
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
+##### Enable runing scripts in windows
+```bash
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
+```
+
+Linux
+```bash
+source venv/bin/activate 
+
+```
+Windows 
+
+```bash
+ venv\Scripts\activate
+
+```
 
 ### 3. Install Dependencies
 ```bash
